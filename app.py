@@ -12,7 +12,10 @@ transactions = [
 ]
 
 # Read operation
-
+@app.route('/')
+def get_transactions():
+    """returns the list of transactions"""
+    return render_template('transactions.html', transactions=transactions)
 
 # Create operation
 
