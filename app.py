@@ -41,6 +41,32 @@ def add_transactions():
     return render_template('form.html')
 
 # Update operation
+@app.route('/edit/<int:transaction_id>', methods=['GET', 'POST'])
+def edit_transaction(transaction_id):
+    """ """
+    try:
+        if request.method == 'POST':
+            # Extract the updated values from the form fields
+            date = request.form['date']
+            amount = float(request.form['amount'])
+
+            # find transaction with the given id and pre-populate form
+            for transaction in transactions:
+                if transaction['id'] == transaction_id:
+                    transaction['date'] = date
+                    transaction['amount'] = amount
+                    break
+
+            # Redirect to the transaction list page after update
+            return redirect(url_for('get_transactions'))
+
+        # find transaction with the transaction_id and render it
+        for transaction in transactions:
+            if transaction['id'] == transaction_id:
+                return render_template('edit.html', transaction=transaction)
+
+    except ValueError:
+        return {'message': 'Transaction ID not found'}, 404
 
 # Delete operation
 
