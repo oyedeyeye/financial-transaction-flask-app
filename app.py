@@ -18,10 +18,30 @@ def get_transactions():
     return render_template('transactions.html', transactions=transactions)
 
 # Create operation
+@app.route('/add', methods=['GET', 'POST'])
+def add_transactions():
+    """returns form if http method is GET or create new transaction if 
+    http method is POST"""
+
+    if request.method == 'POST':
+        # create new transaction object based on form field values
+        new_transaction = {
+            'id': len(transactions) + 1,
+            'date': request.form['date'],
+            'amount': float(request.form['amount'])
+            }
+
+        # append the new transaction to the list
+        transactions.append(new_transaction)
+
+        # Redirect to the transcation list page
+        return redirect(url_for('get_transactions'))
+
+    # Render the form template to display the add transaction form
+    return render_template('form.html')
 
 # Update operation
 
 # Delete operation
 
 # Run the Flask app
-    
